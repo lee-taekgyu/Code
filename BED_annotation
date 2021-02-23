@@ -1,0 +1,42 @@
+import sys
+
+Gene_dic = {}
+outfile  = sys.argv[1] + '_annotation.txt'
+with open('gencode.v36.annotation.gtf', 'r') as handle00:
+	for line in handle00:
+		if line.startswith("##"):
+			continue
+		Info = line.split("\t")
+		Chr = Info[0]
+		Start = Info[3]
+		End = Info[4]
+		Gene = Info[2]
+		Position = Chr + Start
+		character = Info[8].split(';')
+		Gene_id = character[0].split('"')[-2]
+		
+		if Gene == "gene":
+			Gene_name = character[2].split('"')[-2]
+		else:
+			Gene_name = character[3].split('"')[-2]
+		
+		Gene_dic[Position] =  Gene_name
+
+Pos02 = []
+
+with open(sys.argv[1], 'r') as handle01:
+	for line in handle01:
+		if line.startswith('""'):
+			continue
+		line = line.strip()
+		line = line.split('"')
+		Chr02 = line[3]
+		Start02 = line[4].split(',')[2]
+		Position02 = Chr02 + Start02
+		Pos02.append(Position02)
+		
+
+	outopen = open(outfile, 'w')
+	for row in range(len(Pos02)):
+		outopen.write(Gene_dic[Pos02[row]] + '\n')
+	outopen.close()
