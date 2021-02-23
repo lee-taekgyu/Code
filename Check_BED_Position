@@ -1,0 +1,22 @@
+import sys
+
+Pos0 = []
+Pos1 = []
+
+with open(sys.argv[1], 'r') as handle0, open(sys.argv[2], 'r') as handle1:
+	for line0 in handle0:
+		line0 = line0.strip()
+		line0 = line0.split('\t')
+		Position0 = line0[1] + " " + line0[2]
+		Pos0.append(Position0)
+
+	for line1 in handle1:
+		line1 = line1.strip()
+		line1 = line1.split('\t')
+		Position1 = line1[1] + " " + line1[2]
+		Pos1.append(Position1)
+
+if Pos0 == Pos1:
+	print("Position is same")
+else:
+	print("Somewhere is different")
