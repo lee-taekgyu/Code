@@ -1,0 +1,31 @@
+import sys
+
+Pos0 = []
+Pos1 = []
+Total_value = []
+Total_Chr = []
+
+outfile = sys.argv[1] + '_merged.bed' 
+
+with open(sys.argv[2], 'r') as handle0, open(sys.argv[3], 'r') as handle1:
+	for line0 in handle0:
+		line0 = line0.strip()
+		line0 = line0.split('\t')
+		Chr0 = line0[0]
+		Total_Chr.append(Chr0)
+		Start0 = line0[1]
+		End0 = line0[2]
+		Value0 = line0[10]
+		Position0 = Start0 + " " + End0
+		Pos0.append(Position0)
+		for line1 in handle1:
+			line1 = line1.strip()
+			line1 = line1.split('\t')
+			Value1 = line1[10]
+
+			Total_value.append(str(float((float(Value0) + float(Value1)) / 2)))
+
+outopen = open(outfile, 'w')
+for row in range(len(Pos0)):
+	outopen.write(Total_Chr[row] + '\t' + Pos0[row] + '\t' + Total_value[row] + '\n')
+outopen.close()
