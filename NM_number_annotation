@@ -1,0 +1,30 @@
+import sys
+
+Gene_dic = {}
+outfile = sys.argv[1] + '_annotation.txt'
+
+with open("hg19.gtf",'r') as handle00:
+	for line in handle00:
+		if line.startswith("#"):
+			continue
+		line = line.split("\t")
+		NM = line[1]
+		Chr = line[2]
+		Gene_name = line[12]
+		Gene_dic[NM] = Gene_name
+
+NM_num = []
+
+with open(sys.argv[1], 'r') as handle01:
+	for line in handle01:
+		if line.startswith('""'):
+			continue
+		line = line.strip()
+		line = line.split('"')
+		NM02 = line[3]
+		NM_num.append(NM02)
+	
+	outopen = open(outfile, 'w')
+	for row in range(len(NM_num)):
+		outopen.write(Gene_dic[NM_num[row]] + '\n')
+	outopen.close()
