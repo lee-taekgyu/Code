@@ -42,7 +42,7 @@ with open(outfile, 'r') as handle:
 		if len(data_files) >= 2:
 			values = line[3:]
 			Mean = list(map(float, values))
-			Mean = (sum(Mean)/len(data_files))
+			Mean = round(sum(Mean)/len(data_files),2)
 			Total_mean.append(Mean)
 
 with open(outfile, 'w') as handle01:
