@@ -1,0 +1,29 @@
+import sys
+
+data_dir = sys.argv[1] #데이터 파일의 디렉토리
+data_files = sys.argv[2:] #데이터 파일들의 이름
+
+outfile = data_dir + 'Merged_data.count' #결과 파일 이름 지정
+data_dict = {}
+
+for dfile in data_files:
+	dopen = open(data_dir + dfile)
+	dlines = dopen.readlines() #각 데이터 파일을 열어서 내용을 읽음
+	dopen.close()
+	data_dict[dfile] = {}
+	for dline in dlines:
+		dlinsp = dline.strip('\n').split('\t')
+		gene_id = dlinsp[0] #유전자 아이디를 저장
+		count = dlinsp[1] #유전자에 할당된 read count 를 저장
+ 		data_dict[dfile][gene_id] = count #유전자 아이디와 read count 를 매치시켜 저장
+
+gene_list = data_dict[dfile].keys() #전체 유전자 리스트
+
+outopen = open(outfile, 'w') #결과 파일을 열음
+for gene in gene_list:
+	outopen.write(gene) #유전자 아이디 출력
+	for dfile in data_files:
+		outopen.write('\t' + data_dict[dfile][gene]) #각 데이터 파일에서 얻은 read count 를 차례로 출력
+
+	outopen.write('\n')
+outopen.close() #결과 파일을 닫음
