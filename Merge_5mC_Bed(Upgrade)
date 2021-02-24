@@ -1,0 +1,50 @@
+import sys
+
+data_files = sys.argv[2:]
+
+outfile = sys.argv[1] + '_' + 'Merged.bed'
+
+data_dict = {}
+Total_character = []
+
+for dfile in data_files:
+	dopen = open(dfile)
+	dlines = dopen.readlines()
+	dopen.close()
+	data_dict[dfile] = {}
+	for dline in dlines:
+		dline = dline.strip('\n').split('\t')
+		Chr = dline[0]
+		Start = dline[1]
+		End = dline[2]
+		Value = dline[10]
+		Character = Chr + "\t" + Start + "\t" + End
+		Total_character.append(Character)
+		data_dict[dfile][Character] = Value
+
+
+Character_list = data_dict[dfile].keys()
+value_list = data_dict[dfile].values()
+
+outopen = open(outfile, 'w')
+for character in Character_list:
+	outopen.write(character)
+	for dfile in data_files:
+		outopen.write('\t' + data_dict[dfile][character])
+	outopen.write('\n')
+outopen.close()
+
+Total_mean = []
+
+with open(outfile, 'r') as handle:
+	for line in handle:
+		line = line.strip().split('\t')
+		if len(data_files) >= 2:
+			values = line[3:]
+			Mean = list(map(float, values))
+			Mean = (sum(Mean)/len(data_files))
+			Total_mean.append(Mean)
+
+with open(outfile, 'w') as handle01:
+	for row in range(len(Total_mean)):
+		handle01.write(Total_character[row] + '\t' + str(Total_mean[row]) + '\n')
