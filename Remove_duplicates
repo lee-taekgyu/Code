@@ -1,0 +1,14 @@
+import sys
+
+Gene_list = []
+
+with open(sys.argv[1], 'r') as handle:
+	for line in handle:
+		line = line.strip()
+		Gene_list.append(line)
+
+Gene_remove_duplicates = sorted(set(Gene_list))
+
+with open("removed.csv", 'w') as handle01:
+		for i in Gene_remove_duplicates:
+			handle01.write(i + '\n')
