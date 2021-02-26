@@ -1,0 +1,28 @@
+import sys
+import os
+
+name = []
+accession = []
+with open(sys.argv[1], 'r') as handle:
+	for line in handle:
+		if line.startswith('File'):
+			continue
+		line = line.strip().split('\t')
+		tissue_name = line[9]
+		tissue_name = line[9].replace(" ", "_")
+		name.append(tissue_name.strip())
+		accession.append(line[0])
+
+
+for i in name:
+	print(i)
+
+with open(sys.argv[2], 'w') as handle01:
+	for i,j in zip(name, accession):
+			handle01.write(i + "\t" + j + '\n')
+
+
+
+for i,j in zip(name, accession):
+	cmd = 'bigBedToBed {}.bigBed {}.bed'.format(j,i)
+	os.system(cmd)
