@@ -1,0 +1,16 @@
+import sys
+
+Total = []
+with open(sys.argv[1], 'r') as handle:
+        for line in handle:
+                line = line.strip().split('\t')
+                Chr = line[0]
+                Start = line[1]
+                End = line[2]
+                Value = line[10]
+                Character = Chr + '\t' + Start + '\t' + End + '\t' + Value + '\n'
+                Total.append(Character)
+
+with open(sys.argv[1], 'w') as handle1:
+        for i in range(len(Total)):
+                handle1.write(Total[i])
