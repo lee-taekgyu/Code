@@ -1,0 +1,4 @@
+for file in `cat Total_files.txt`
+do
+		bigBedToBed bigBed/$file.bigBed Bed/$file.bed
+done
