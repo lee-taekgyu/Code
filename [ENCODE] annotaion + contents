@@ -1,3 +1,5 @@
+#본 코드는 최종적으로 통합파일을 생성한 이후, 각 cell 혹은 tissue의 이름을 줄 맨 처음에 작성하기 위한 코드임 
+
 import sys
 
 with open(sys.argv[1], 'w') as handle0:
