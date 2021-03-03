@@ -1,0 +1,33 @@
+#본 코드는 메모리가 충분할때 모든 파일에 대한 명령어로 *를 사용하여 한번에 통합하는 과정에서 사용하는 코드임.
+#만일 메모리의 오류로 인해 통합이 불가능할 경우, [ENCODE] Merge divided file 라는 코드를 실행하길 바람.(여러번 
+import sys
+
+outfile = sys.argv[1] + '_' + 'total.bed'
+data_files = sys.argv[2:]
+
+data_dict = {}
+
+for dfile in data_files:
+	dopen = open(dfile)
+	dlines = dopen.readlines()
+	dopen.close()
+	data_dict[dfile] = {}
+	for dline in dlines:
+		dline = dline.strip('\n').split('\t')
+		Chr = dline[0]
+		Start = dline[1]
+		End = dline[2]
+		Value = dline[3]
+		Character = Chr + "\t" + Start + "\t" + End
+		data_dict[dfile][Character] = Value
+
+
+Character_list = data_dict[dfile].keys()
+
+outopen = open(outfile, 'w')
+for character in Character_list:
+	outopen.write(character)
+	for dfile in data_files:
+		outopen.write('\t' + data_dict[dfile][character])
+	outopen.write('\n')
+outopen.close()
