@@ -1,0 +1,12 @@
+import sys
+
+with open(sys.argv[1], 'w') as handle0:
+	handle0.write("Chr" + '\t' + "Start" + '\t' + "End")
+	with open(sys.argv[2], 'r') as handle1:
+		for line in handle1:
+			line = line.strip()
+			handle0.write('\t' + line)
+	with open(sys.argv[3], 'r') as handle2:
+		for line in handle2:
+			line = line.strip()
+			handle0.write('\n' + line)
