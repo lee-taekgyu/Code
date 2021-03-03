@@ -1,5 +1,5 @@
 #본 코드는 메모리가 충분할때 모든 파일에 대한 명령어로 *를 사용하여 한번에 통합하는 과정에서 사용하는 코드임.
-#만일 메모리의 오류로 인해 통합이 불가능할 경우, [ENCODE] Merge divided file 라는 코드를 실행하길 바람.(여러번 
+#만일 메모리의 오류로 인해 통합이 불가능할 경우, [ENCODE] Merge divided file 라는 코드를 실행하길 바람. (몇개씩 이 코드로 돌린다음, [ENCODE] Merge divided file 실행)
 import sys
 
 outfile = sys.argv[1] + '_' + 'total.bed'
