@@ -1,9 +1,10 @@
 import time
 import numpy as np
+import sys
 
 start_time = time.time()
 cpg_dic = {}
-with open("3000.txt" ,'r' ) as CpG:
+with open(sys.argv[1] ,'r' ) as CpG:
     for cpg_line in CpG:
         cpg_line = cpg_line.strip()
         cpg_list = cpg_line.split('\t')
@@ -21,7 +22,7 @@ with open("3000.txt" ,'r' ) as CpG:
 
 
 bed_dic = {}
-with open("3000.bed",'r') as bed:
+with open(sys.argv[2],'r') as bed:
     for bed_line in bed:
         bed_line = bed_line.strip()
         bed_list = bed_line.split('\t')
@@ -58,11 +59,11 @@ for chromosome in Chromosome:
                                 else:
                                     Total_dic[bed_key] += ',' + cpg_dic[cpg_key]
 
-with open('result.txt','w') as handle:
+with open(sys.argv[2]+'result.txt','w') as handle:
     for key in Total_dic.keys():
         handle.write(key.split(' ')[0] + '\t' + key.split(' ')[1] + '\t' + key.split(' ')[2] + '\t' + Total_dic[key].split(' ')[0] + '\t' + Total_dic[key].split(' ')[1] + '\n')
 
-with open('sum_result.txt', 'w') as note:
+with open(sys.argv[2]+'SUM.txt', 'w') as note:
     with open('result.txt','r') as handle:
         for line in handle:
             line = line.strip().split('\t')
@@ -73,7 +74,7 @@ with open('sum_result.txt', 'w') as note:
             note.write(line[0] + '\t' + line[1] + '\t' +line[2] + '\t' +line[3] + '\t' +character + '\n')
 
 
-with open('mean_result.txt', 'w') as note:
+with open(sys.argv[2]+'MEAN.txt', 'w') as note:
     with open('result.txt','r') as handle:
         for line in handle:
             line = line.strip().split('\t')
