@@ -69,14 +69,14 @@ start_time = time.time()
 cpg_dic = {}
 bed_dic = {}
 
-with open("ENCFF592AII.bed",'r') as bed:
+with open(sys.argv[2],'r') as bed:
     for bed_line in bed:
         bed_line = bed_line.strip()
         bed_list = bed_line.split('\t')
         bed_pos = bed_list[0] + ' ' + bed_list[1] + ' ' + bed_list[2] #chr, start, end
         bed_dic[bed_pos] = bed_list[6] # enrichment score
 
-with open("MD2_pilot.txt", 'r') as CpG:
+with open(sys.argv[1], 'r') as CpG:
     for cpg_line in CpG:
         cpg_line = cpg_line.strip()
         cpg_list = cpg_line.split('\t')
