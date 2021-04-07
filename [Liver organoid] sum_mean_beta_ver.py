@@ -58,6 +58,68 @@ for chromosome in Chromosome:
                                     Total_dic[bed_key] = bed_dic[bed_key] + ' ' + cpg_dic[cpg_key]
                                 else:
                                     Total_dic[bed_key] += ',' + cpg_dic[cpg_key]
+                                    
+                                    
+or
+
+import time
+import numpy as np
+start_time = time.time()
+
+cpg_dic = {}
+bed_dic = {}
+
+with open("ENCFF592AII.bed",'r') as bed:
+    for bed_line in bed:
+        bed_line = bed_line.strip()
+        bed_list = bed_line.split('\t')
+        bed_pos = bed_list[0] + ' ' + bed_list[1] + ' ' + bed_list[2] #chr, start, end
+        bed_dic[bed_pos] = bed_list[6] # enrichment score
+
+with open("MD2_pilot.txt", 'r') as CpG:
+    for cpg_line in CpG:
+        cpg_line = cpg_line.strip()
+        cpg_list = cpg_line.split('\t')
+        cpg_pos = cpg_list[0] + ' ' + cpg_list[1] # chr, cpg site
+        cpg_character = ", ".join(cpg_list[2:])
+        cpg_character = cpg_character.split(';')
+        cpg_character = ', '.join(cpg_character)
+        cpg_character = cpg_character.split(',')
+        cpg_character = cpg_character[0::4] + cpg_character[1::4]
+        cpg_character = ', '.join(cpg_character) #c,c,c,uc,uc,uc
+        cpg_dic[cpg_pos] = cpg_character
+
+#조건 cpg 가 position 안에 들어가면서 염색체 번호가 같을 경우!
+#최대한 중첩 for 구문은 피할 것!
+Total = {}
+for bed_key in list(bed_dic):
+    bed_chr = bed_key.split(' ')[0]
+    start = bed_key.split(' ')[1]
+    end = bed_key.split(' ')[2]
+    for cpg_key in list(cpg_dic): ## 이중 for구문 피하는 방법 생각해보기!
+        cpg_chr = cpg_key.split(' ')[0]
+        cpg_site = cpg_key.split(' ')[1]
+        if bed_chr == cpg_chr :
+            if int(start) <= int(cpg_site) <= int(end): ## 이부분 효율적으로 생각해보기!
+                if bed_key not in Total:
+                    Total[bed_key] = bed_dic[bed_key] + ' ' + cpg_dic[cpg_key]
+                    cpg_dic.pop(cpg_key)
+                else:
+                    Total[bed_key] += ',' + cpg_dic[cpg_key]
+                    cpg_dic.pop(cpg_key)
+        else:
+            break
+    bed_dic.pop(bed_key)
+
+
+print(Total)
+
+
+
+print("Working Time : {} sec".format(time.time()-start_time))
+                                    
+                                    
+                                    
 
 with open(sys.argv[2]+'result.txt','w') as handle:
     for key in Total_dic.keys():
